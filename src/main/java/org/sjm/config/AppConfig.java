@@ -37,41 +37,6 @@ public class AppConfig {
         return ShardingDataSourceFactory.createDataSource(shardingRule());
     }
 
-    private DataSource createDataSource(final String dataSourceName){
-
-        try {
-
-            DruidDataSource dataSource = new DruidDataSource();
-            dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-            dataSource.setUrl("jdbc:mysql://localhost:3306/" + dataSourceName + "?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true");
-            dataSource.setUsername("root");
-            dataSource.setPassword("root");
-
-            dataSource.setInitialSize(2); // 初始化连接大小
-            dataSource.setMinIdle(2);     // 连接池最小空闲
-            dataSource.setMaxActive(20);  // 连接池最大使用连接数量
-
-            dataSource.setMaxWait(60000); // 获取连接最大等待时间
-            dataSource.setValidationQuery("SELECT 1");
-            dataSource.setTestOnBorrow(false);
-            dataSource.setTestOnReturn(false);
-            dataSource.setTestWhileIdle(true);
-
-            dataSource.setTimeBetweenEvictionRunsMillis(60000); // 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
-            dataSource.setMinEvictableIdleTimeMillis(25200000); // 配置一个连接在池中最小生存的时间，单位是毫秒
-            dataSource.setRemoveAbandoned(true);
-            dataSource.setRemoveAbandonedTimeout(1800);
-            dataSource.setLogAbandoned(true);
-            dataSource.setFilters("stat");
-
-            return dataSource;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-
     /**
      * 规则配置
      * @return
@@ -105,6 +70,40 @@ public class AppConfig {
                 .build();
 
         return shardingRule;
+    }
+
+    private DataSource createDataSource(final String dataSourceName){
+
+        try {
+
+            DruidDataSource dataSource = new DruidDataSource();
+            dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+            dataSource.setUrl("jdbc:mysql://localhost:3306/" + dataSourceName + "?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true");
+            dataSource.setUsername("root");
+            dataSource.setPassword("root");
+
+            dataSource.setInitialSize(2); // 初始化连接大小
+            dataSource.setMinIdle(2);     // 连接池最小空闲
+            dataSource.setMaxActive(20);  // 连接池最大使用连接数量
+
+            dataSource.setMaxWait(60000); // 获取连接最大等待时间
+            dataSource.setValidationQuery("SELECT 1");
+            dataSource.setTestOnBorrow(false);
+            dataSource.setTestOnReturn(false);
+            dataSource.setTestWhileIdle(true);
+
+            dataSource.setTimeBetweenEvictionRunsMillis(60000); // 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+            dataSource.setMinEvictableIdleTimeMillis(25200000); // 配置一个连接在池中最小生存的时间，单位是毫秒
+            dataSource.setRemoveAbandoned(true);
+            dataSource.setRemoveAbandonedTimeout(1800);
+            dataSource.setLogAbandoned(true);
+            dataSource.setFilters("stat");
+
+            return dataSource;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }

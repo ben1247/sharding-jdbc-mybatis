@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -31,9 +32,9 @@ public class ShardingJdbcMybatisTest {
     @Test
     public void testUserInsert() {
         User u = new User();
-        u.setUserId(13);
+        u.setUserId(1);
         u.setAge(25);
-        u.setName("github3");
+        u.setName("ben1");
         Assert.assertEquals(userService.insert(u), true);
     }
 
@@ -47,14 +48,35 @@ public class ShardingJdbcMybatisTest {
         }
     }
 
+    @Test
+    public void testSQLIN(){
+        List<User> users = userService.findByUserIds(Arrays.asList(2, 10, 1));
+        if(null != users && !users.isEmpty()){
+            for(User u :users){
+                System.out.println(u);
+            }
+        }
+    }
+
 
     @Test
     public void testStudentInsert() {
         Student student = new Student();
-        student.setStudentId(21);
+        student.setStudentId(2);
         student.setAge(21);
-        student.setName("hehe");
+        student.setName("hehe1");
         Assert.assertEquals(studentService.insert(student), true);
+    }
+
+    @Test
+    public void testTransactionTestSucess(){
+        userService.transactionTestSucess();
+    }
+
+
+    @Test(expected = IllegalAccessException.class)
+    public void testTransactionTestFailure() throws IllegalAccessException{
+        userService.transactionTestFailure();
     }
 
 }

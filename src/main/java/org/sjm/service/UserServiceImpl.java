@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
         return userMapper.findByUserIds(ids);
     }
 
-    @Transactional(propagation= Propagation.REQUIRED)
+    @Transactional
     public void transactionTestSucess() {
         User u = new User();
         u.setUserId(13);
@@ -54,18 +54,18 @@ public class UserServiceImpl implements UserService {
         studentMapper.insert(student);
     }
 
-    @Transactional(propagation=Propagation.REQUIRED)
+    @Transactional
     public void transactionTestFailure() throws IllegalAccessException {
         User u = new User();
         u.setUserId(13);
         u.setAge(25);
-        u.setName("war3 1.27 good");
+        u.setName("张悦");
         userMapper.insert(u);
 
         Student student = new Student();
         student.setStudentId(21);
         student.setAge(21);
-        student.setName("hehe1");
+        student.setName("张峰烨烨");
         studentMapper.insert(student);
         throw new IllegalAccessException();
     }
